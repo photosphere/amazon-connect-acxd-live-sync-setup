@@ -1,0 +1,275 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "d1a9e0c0-0000-4000-8000-000000000001",
+  "Metadata": {
+    "entryPointPosition": {"x": 40, "y": 40},
+    "ActionMetadata": {
+      "d1a9e0c0-0000-4000-8000-000000000001": {"position": {"x": 160, "y": 40}},
+      "d1a9e0c0-0000-4000-8000-000000000002": {
+        "position": {"x": 400, "y": 40},
+        "parameters": {
+          "EventHooks": {"DefaultAgentUI": {"displayName": "{{SCREENPOP_FLOW_NAME}}"}}
+        }
+      },
+      "d1a9e0c0-0000-4000-8000-000000000003": {
+        "position": {"x": 640, "y": 40},
+        "overrideConsoleVoice": true
+      },
+      "d1a9e0c0-0000-4000-8000-00000000000b": {
+        "position": {"x": 400, "y": 240},
+        "parameters": {
+          "ProfileRequestData": {
+            "IdentifierName": {"displayName": "Phone"},
+            "IdentifierValue": {"useDynamic": true}
+          }
+        },
+        "useDynamic": {"IdentifierName": true, "IdentifierValue": true},
+        "customerProfilesAction": "GetCustomerProfile"
+      },
+      "d1a9e0c0-0000-4000-8000-00000000000c": {"position": {"x": 640, "y": 240}},
+      "d1a9e0c0-0000-4000-8000-000000000012": {"position": {"x": 640, "y": 640}},
+      "d1a9e0c0-0000-4000-8000-000000000013": {"position": {"x": 640, "y": 840}},
+      "d1a9e0c0-0000-4000-8000-00000000000d": {"position": {"x": 880, "y": 240}},
+      "d1a9e0c0-0000-4000-8000-00000000000e": {"position": {"x": 880, "y": 440}},
+      "d1a9e0c0-0000-4000-8000-00000000000f": {"position": {"x": 640, "y": 440}},
+      "d1a9e0c0-0000-4000-8000-000000000010": {"position": {"x": 880, "y": 640}},
+      "d1a9e0c0-0000-4000-8000-000000000011": {"position": {"x": 400, "y": 440}},
+      "d1a9e0c0-0000-4000-8000-000000000004": {"position": {"x": 880, "y": 40}},
+      "d1a9e0c0-0000-4000-8000-000000000005": {"position": {"x": 1120, "y": 40}},
+      "d1a9e0c0-0000-4000-8000-000000000006": {
+        "position": {"x": 1360, "y": 40},
+        "parameters": {"QueueId": {"displayName": "{{QUEUE_DISPLAY_NAME}}"}}
+      },
+      "d1a9e0c0-0000-4000-8000-000000000007": {"position": {"x": 1600, "y": 40}},
+      "d1a9e0c0-0000-4000-8000-000000000008": {"position": {"x": 1360, "y": 320}},
+      "d1a9e0c0-0000-4000-8000-000000000009": {"position": {"x": 1120, "y": 480}},
+      "d1a9e0c0-0000-4000-8000-00000000000a": {"position": {"x": 1840, "y": 320}}
+    },
+    "Annotations": [],
+    "name": "{{FLOW_NAME}}",
+    "description": "Inbound flow: Customer Profiles lookup by caller number, ACXD self-service collects device name, model and fault description, then screen pop and transfer to queue",
+    "type": "contactFlow",
+    "status": "published",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {"FlowLoggingBehavior": "Enabled"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000001",
+      "Type": "UpdateFlowLoggingBehavior",
+      "Transitions": {"NextAction": "d1a9e0c0-0000-4000-8000-000000000002"}
+    },
+    {
+      "Parameters": {"EventHooks": {"DefaultAgentUI": "{{SCREENPOP_FLOW_ARN}}"}},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000002",
+      "Type": "UpdateContactEventHooks",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000003",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000003", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"TextToSpeechVoice": "{{TTS_VOICE}}", "TextToSpeechEngine": "{{TTS_ENGINE}}"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000003",
+      "Type": "UpdateContactTextToSpeechVoice",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000b",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-00000000000b", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "ProfileRequestData": {"IdentifierName": "_phone", "IdentifierValue": "$.CustomerEndpoint.Address"},
+        "ProfileResponseData": ["FirstName", "LastName", "EmailAddress", "BusinessEmailAddress", "PhoneNumber"]
+      },
+      "Identifier": "d1a9e0c0-0000-4000-8000-00000000000b",
+      "Type": "GetCustomerProfile",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000c",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000011", "ErrorType": "NoneFoundError"},
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000011", "ErrorType": "MultipleFoundError"},
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000011", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"Attributes": "{{CUSTOMER_FOUND_ATTRIBUTES}}", "TargetContact": "Current"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-00000000000c",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000012",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000012", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"ComparisonValue": "{{CUSTOMER_NAME_ATTRIBUTE}}"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000012",
+      "Type": "Compare",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000d",
+        "Conditions": [
+          {
+            "NextAction": "d1a9e0c0-0000-4000-8000-000000000013",
+            "Condition": {"Operator": "Equals", "Operands": ["{{CUSTOMER_BLANK_NAME}}"]}
+          }
+        ],
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-00000000000d", "ErrorType": "NoMatchingCondition"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"Attributes": "{{CUSTOMER_NO_NAME_ATTRIBUTES}}", "TargetContact": "Current"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000013",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000d",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-00000000000d", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"ComparisonValue": "$.Customer.EmailAddress"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-00000000000d",
+      "Type": "Compare",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000e",
+        "Conditions": [
+          {
+            "NextAction": "d1a9e0c0-0000-4000-8000-000000000004",
+            "Condition": {"Operator": "TextContains", "Operands": ["@"]}
+          }
+        ],
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-00000000000e", "ErrorType": "NoMatchingCondition"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"ComparisonValue": "$.Customer.BusinessEmailAddress"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-00000000000e",
+      "Type": "Compare",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000010",
+        "Conditions": [
+          {
+            "NextAction": "d1a9e0c0-0000-4000-8000-00000000000f",
+            "Condition": {"Operator": "TextContains", "Operands": ["@"]}
+          }
+        ],
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000010", "ErrorType": "NoMatchingCondition"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"Attributes": "{{CUSTOMER_BUSINESS_EMAIL_ATTRIBUTES}}", "TargetContact": "Current"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-00000000000f",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000004",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000004", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"Attributes": "{{CUSTOMER_NO_EMAIL_ATTRIBUTES}}", "TargetContact": "Current"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000010",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000004",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000004", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"Attributes": "{{CUSTOMER_NOT_FOUND_ATTRIBUTES}}", "TargetContact": "Current"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000011",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000004",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000004", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000004",
+      "Type": "{{AGENTIC_CX_ACTION}}",
+      "Parameters": {},
+      "Transitions": {}
+    },
+    {
+      "Parameters": {"Attributes": "{{FIELD_ATTRIBUTES}}", "TargetContact": "Current"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000005",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000006",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000006", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"QueueId": "{{QUEUE_ARN}}"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000006",
+      "Type": "UpdateContactTargetQueue",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-000000000007",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000008", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000007",
+      "Type": "TransferContactToQueue",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000a",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000008", "ErrorType": "QueueAtCapacity"},
+          {"NextAction": "d1a9e0c0-0000-4000-8000-000000000008", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"Text": "{{ERROR_MESSAGE}}"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000008",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000a",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-00000000000a", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {"Text": "{{IDLE_TIMEOUT_MESSAGE}}"},
+      "Identifier": "d1a9e0c0-0000-4000-8000-000000000009",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "d1a9e0c0-0000-4000-8000-00000000000a",
+        "Errors": [
+          {"NextAction": "d1a9e0c0-0000-4000-8000-00000000000a", "ErrorType": "NoMatchingError"}
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "d1a9e0c0-0000-4000-8000-00000000000a",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    }
+  ]
+}

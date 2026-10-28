@@ -1,0 +1,153 @@
+{
+  "nodes": {
+    "a0d0f1a0-0000-4000-8000-000000000001": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000001",
+      "type": "start",
+      "messages": [],
+      "modalities": {},
+      "metadata": {"name": "Start", "stateModifications": []},
+      "childNodes": [{"nodeId": "a0d0f1a0-0000-4000-8000-000000000002", "name": "", "conditions": []}],
+      "canvasMetadata": {"x": 0, "y": 0}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000002": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000002",
+      "type": "basic",
+      "messages": [{"messageId": "a0d0f1a0-0000-4000-8000-000000000102", "type": "text", "body": "{{MSG_WELCOME}}", "skipTranslation": false, "metadata": {}}],
+      "modalities": {},
+      "metadata": {"name": "Welcome", "stateModifications": []},
+      "childNodes": [{"nodeId": "a0d0f1a0-0000-4000-8000-000000000003", "name": "", "conditions": []}],
+      "canvasMetadata": {"x": 0, "y": 250}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000003": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000003",
+      "type": "generative_journey",
+      "messages": [],
+      "modalities": {},
+      "metadata": {"name": "{{JOURNEY_NAME}}", "stateModifications": [], "generativeJourney": "{{GENERATIVE_JOURNEY}}"},
+      "childNodes": [
+        {
+          "nodeId": "a0d0f1a0-0000-4000-8000-000000000006",
+          "name": "",
+          "conditions": [
+            {"left": {"type": "system", "name": "System.gjConditionIndex"}, "operator": "eq", "right": {"type": "constant", "value": 0}}
+          ]
+        },
+        {
+          "nodeId": "a0d0f1a0-0000-4000-8000-000000000006",
+          "name": "",
+          "conditions": [
+            {"left": {"type": "system", "name": "System.gjConditionIndex"}, "operator": "eq", "right": {"type": "constant", "value": 1}}
+          ]
+        },
+        {
+          "nodeId": "a0d0f1a0-0000-4000-8000-000000000004",
+          "name": "",
+          "conditions": [
+            {"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "timeout"}}
+          ]
+        },
+        {
+          "nodeId": "a0d0f1a0-0000-4000-8000-000000000004",
+          "name": "",
+          "conditions": [
+            {"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "failure"}}
+          ]
+        }
+      ],
+      "canvasMetadata": {"x": 0, "y": 500}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000004": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000004",
+      "type": "loop",
+      "messages": [],
+      "modalities": {},
+      "metadata": {
+        "name": "RetryJourney",
+        "stateModifications": [],
+        "loop": {
+          "name": "retryIndex",
+          "type": "range",
+          "start": 1,
+          "end": 2,
+          "startOperand": {"type": "constant", "value": 1},
+          "endOperand": {"type": "constant", "value": 2}
+        }
+      },
+      "childNodes": [
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000005", "name": "", "conditions": []},
+        {
+          "nodeId": "a0d0f1a0-0000-4000-8000-000000000006",
+          "name": "",
+          "conditions": [
+            {"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "continuation"}}
+          ]
+        }
+      ],
+      "canvasMetadata": {"x": -400, "y": 800}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000005": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000005",
+      "type": "basic",
+      "messages": [{"messageId": "a0d0f1a0-0000-4000-8000-000000000105", "type": "text", "body": "{{MSG_RETRY}}", "skipTranslation": false, "metadata": {}}],
+      "modalities": {},
+      "metadata": {"name": "RetryMessage", "stateModifications": []},
+      "childNodes": [{"nodeId": "a0d0f1a0-0000-4000-8000-000000000003", "name": "", "conditions": []}],
+      "canvasMetadata": {"x": -400, "y": 1050}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000006": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000006",
+      "type": "generative_text",
+      "messages": [],
+      "modalities": {},
+      "metadata": {"name": "ExtractDeviceName", "stateModifications": [], "generativeText": "{{GT_DEVICE_NAME}}"},
+      "childNodes": [
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000007", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "success"}}]},
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000007", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "timeout"}}]},
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000007", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "failure"}}]}
+      ],
+      "canvasMetadata": {"x": 400, "y": 800}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000007": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000007",
+      "type": "generative_text",
+      "messages": [],
+      "modalities": {},
+      "metadata": {"name": "ExtractDeviceModel", "stateModifications": [], "generativeText": "{{GT_DEVICE_MODEL}}"},
+      "childNodes": [
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000008", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "success"}}]},
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000008", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "timeout"}}]},
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000008", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "failure"}}]}
+      ],
+      "canvasMetadata": {"x": 400, "y": 1050}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000008": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000008",
+      "type": "generative_text",
+      "messages": [],
+      "modalities": {},
+      "metadata": {"name": "ExtractFaultDescription", "stateModifications": [], "generativeText": "{{GT_FAULT_DESCRIPTION}}"},
+      "childNodes": [
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000009", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "success"}}]},
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000009", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "timeout"}}]},
+        {"nodeId": "a0d0f1a0-0000-4000-8000-000000000009", "name": "", "conditions": [{"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "failure"}}]}
+      ],
+      "canvasMetadata": {"x": 400, "y": 1300}
+    },
+    "a0d0f1a0-0000-4000-8000-000000000009": {
+      "nodeId": "a0d0f1a0-0000-4000-8000-000000000009",
+      "type": "escalate",
+      "messages": [{"messageId": "a0d0f1a0-0000-4000-8000-000000000109", "type": "text", "body": "{{MSG_TRANSFER}}", "skipTranslation": false, "metadata": {}}],
+      "modalities": {},
+      "metadata": "{{ESCALATE_NODE_METADATA}}",
+      "childNodes": [
+        {
+          "name": "",
+          "conditions": [
+            {"left": {"type": "node_status"}, "operator": "eq", "right": {"type": "constant", "value": "continuation"}}
+          ]
+        }
+      ],
+      "canvasMetadata": {"x": 400, "y": 1550}
+    }
+  }
+}

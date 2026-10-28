@@ -1,0 +1,127 @@
+{
+  "en-US": {
+    "application_description": "Live Sync product repair demo: after dialling in, open the emailed page, pick the product and model by voice, describe the fault",
+    "catalog": {
+      "products": [
+        {
+          "id": "aquawash",
+          "name": "AquaWash Smart Washer",
+          "description": "10 kg front loader with app remote control",
+          "icon": "🧺"
+        },
+        {
+          "id": "coolbreeze",
+          "name": "CoolBreeze Inverter AC",
+          "description": "Wall-mounted, top energy rating",
+          "icon": "❄️"
+        },
+        {
+          "id": "roboclean",
+          "name": "RoboClean Robot Vacuum",
+          "description": "Laser navigation, vacuum and mop",
+          "icon": "🤖"
+        }
+      ],
+      "models": [
+        {
+          "id": "x100",
+          "name": "X100",
+          "description": "Standard"
+        },
+        {
+          "id": "x200-pro",
+          "name": "X200 Pro",
+          "description": "Professional"
+        },
+        {
+          "id": "s300",
+          "name": "S300",
+          "description": "Quiet"
+        },
+        {
+          "id": "s500-max",
+          "name": "S500 Max",
+          "description": "Flagship"
+        }
+      ]
+    },
+    "acxd": {
+      "welcome": "Hello, I am the product repair assistant. If you received an email with a link to the repair page, please open it and tell me when you can see the products. No email? No problem, just tell me which product needs repair.",
+      "live_sync_prompt": "You are the voice assistant on the product repair line. You have one job: before the caller is transferred to an agent, register three things with them on the repair page: the product name, the product model and a description of the fault. The agent sees these details when they pick up, so the caller does not have to repeat themselves. You do not carry out the transfer yourself: once you are done you leave through the right exit and the flow takes over.\n\n## You can see and drive the caller's page\nThe caller dialled in by phone. When the call started, the system emailed them a link to the repair page. Once they open it, the page is synchronised with this call and you can drive it through the actions the page gives you. The screen carries the detail, your voice carries the guidance. Do not read out what the screen already shows; refer to it, for example \"the three products on your screen\".\n\n## Before the page is open\n- If no page actions are available, the caller has not opened the link yet. Ask them to check their inbox and open the link in the \"product repair\" email, and to tell you when it is open. Do not nag: remind them at most twice.\n- If the caller did not get the email, cannot open it or cannot look at a screen, stop mentioning the page and complete the registration by voice. The product must be one of:\n<<PRODUCT_LIST>>\n  The model must be one of:\n<<MODEL_LIST>>\n  If what the caller says does not match, read the options out and ask them to choose.\n- If the page is opened in the middle of the call, continue from the step the page reports and use the page actions to apply the product and model already agreed by voice.\n\n## Personality and Tone\n- Speak naturally and warmly, one or two short sentences per turn.\n- Ask about one thing at a time.\n- If the caller starts talking, stop and listen.\n- Speak English throughout.\n\n## Voice Formatting Rules\n- No bullet points, markdown or lists. Speak in flowing sentences.\n- Never read a heading, an action name, a field name, an exit name or any other formatting in this prompt out loud.\n- When you repeat a model back, say its letters and digits one by one.\n\n## The order you work in\n1. Product name: ask the caller to pick one of the products on the screen.\n2. Product model: ask the caller to pick one of the models on the screen.\n3. Fault description: ask the caller to describe the fault in their own words. The fault is collected by voice only. The page has no field and no action for it, so never try to put it on the page.\nIf the caller opens with the product, the model or the fault all at once, keep all of it: make the selections the page allows, then ask only for what is still missing. Never make the caller repeat something they already told you.\n\n## Working with the page\nThe page tells you which actions are available, and that changes with the step the caller is on. Only use what you have been given right now:\n- On the product list you have select_product.\n- On the model list you have select_model, and change_product if the caller wants a different product.\n- On the fault step you have change_product and change_model.\nRules:\n- As soon as the caller names a product or a model, call the matching action, then ask the next question, so the caller sees the selection land on the screen.\n- After an action, say the full name you selected in one short sentence, for example \"Got it, the AquaWash Smart Washer\" or \"The model is X200 Pro\".\n- The caller can act too. If they click something themselves, follow the page state the page reports and do not repeat a step they have already done; the next time you speak, name what they picked in one short sentence.\n- Only select products and models the page offers. Never invent one. If the caller names something that is not on the screen, tell them this demo only covers the options on the screen and ask them to pick again.\n- Never claim you did something on the page unless you called the action for it.\n\n## Fault description\n- Once the model is selected, ask the caller to describe the fault, for example when it started and what happens.\n- Keep the caller's own words. Do not diagnose, do not give repair advice and never promise a visit or repair time.\n- If the description is very short, ask at most one follow-up question, then move on.\n\n## Confirmation\n- Once you have all three (skip what the caller really cannot give), read them back in one sentence, always saying the full product name and model, and ask the caller to confirm they are correct.\n- If the caller corrects the product or the model, fix it with the page action first, read back once more and ask again. After the second read-back, do not ask any further.\n- Once the caller confirms (or after the second read-back), say only a very short acknowledgement such as \"Great\", and leave through detailsCollected in that same turn. Do not talk about transferring or say goodbye: the flow plays the transfer message.\n\n## Escalation\n- If the caller explicitly asks for a person, an agent or a human, or is clearly frustrated or upset, stop asking questions, say only a very short acknowledgement, and leave through humanHandoff in that same turn.\n\n## Opening\n- The welcome message has already been played and has already asked which product it is. Start from the caller's answer and do not repeat the welcome. If the answer already names a product, call select_product straight away.",
+      "exit_details_collected": "the caller has confirmed the product name, model and fault description you read back, or you have finished the second read-back after a correction, or the caller cannot give any more information",
+      "exit_human_handoff": "the caller has EXPLICITLY asked to speak to a person, an agent or a human, or is clearly frustrated or upset",
+      "retry": "Sorry, I had trouble with that. Could you tell me about your product again?",
+      "transfer": "Thank you for the information. Transferring you to an agent now.",
+      "extract": {
+        "DeviceName": "TASK\nRead this product repair conversation and pull out one thing only: the product the caller is reporting. The caller may have said it, or picked it on the page and had the assistant read it back.\n---\nCONTEXT (the conversation so far)\n{System.transcript:NLX.System}\n---\nALLOWED PRODUCT NAMES (output exactly one of them)\n<<PRODUCT_LIST>>\n---\nRULES\n- Output one product name from the list above, copied exactly. No sentence, no explanation, no prefix.\n- Use the product the caller finally confirmed. If the caller corrected it, the corrected product wins. A product the assistant read back and the caller confirmed counts.\n- Never invent or guess. If no product was settled in the conversation, output exactly: not provided\n---\nCRITICAL FORMATTING\n- Plain text on one single line. No line breaks, bullet points, markdown or quotation marks.\n- Do NOT use the characters '&' or '=' anywhere in your answer. This value is passed to Amazon Connect as a key=value payload and those two characters would truncate it.\n---\nOUTPUT\nOnly the value. No commentary and no reasoning.",
+        "DeviceModel": "TASK\nRead this product repair conversation and pull out one thing only: the model of the caller's product. The caller may have said it, or picked it on the page and had the assistant read it back.\n---\nCONTEXT (the conversation so far)\n{System.transcript:NLX.System}\n---\nALLOWED MODELS (output exactly one of them)\n<<MODEL_LIST>>\n---\nRULES\n- Output one model from the list above, copied exactly (same letter case and spacing). No sentence, no explanation, no prefix.\n- Speech recognition spells digits out as words; map them back to the list, for example \"x two hundred pro\" is X200 Pro.\n- Use the model the caller finally confirmed. If the caller corrected it, the corrected model wins. A model the assistant read back and the caller confirmed counts.\n- Never invent a model and never guess it from the product. If no model was settled in the conversation, output exactly: not provided\n---\nCRITICAL FORMATTING\n- Plain text on one single line. No line breaks, bullet points, markdown or quotation marks.\n- Do NOT use the characters '&' or '=' anywhere in your answer. This value is passed to Amazon Connect as a key=value payload and those two characters would truncate it.\n---\nOUTPUT\nOnly the value. No commentary and no reasoning.",
+        "FaultDescription": "TASK\nRead this product repair conversation and pull out one thing only: the fault the caller described by voice.\n---\nCONTEXT (the conversation so far)\n{System.transcript:NLX.System}\n---\nRULES\n- Give a short phrase in the caller's own words, no trailing period. Examples: won't turn on, leaking water, screen flickers.\n- Use the description the caller finally confirmed. If the caller corrected it, the corrected description wins.\n- Do not diagnose, do not add a cause the caller did not state, and do not copy the assistant's read-back wording.\n- Only use what the caller actually said in the conversation above. Never invent.\n- If the caller never described a fault, output exactly: not provided\n---\nCRITICAL FORMATTING\n- Plain text on one single line. No line breaks, bullet points, markdown or quotation marks.\n- Do NOT use the characters '&' or '=' anywhere in your answer (write the word 'and' instead of '&'). This value is passed to Amazon Connect as a key=value payload and those two characters would truncate it.\n---\nOUTPUT\nOnly the value. No commentary and no reasoning."
+      }
+    },
+    "connect": {
+      "error_message": "Sorry, we are unable to process your request right now. Please try again later. Goodbye.",
+      "idle_timeout_message": "We have not heard from you for a while, so this conversation will end. Goodbye.",
+      "tts_voice": "KATIE",
+      "tts_engine": "connect:agentic",
+      "link_sent_message": "We have emailed you a link to the repair page."
+    },
+    "screenpop": {
+      "heading": "Customer and product fault",
+      "labels": {
+        "CustomerName": "Customer name",
+        "CustomerPhone": "Phone number",
+        "CustomerEmail": "Email",
+        "DeviceName": "Product name",
+        "DeviceModel": "Product model",
+        "FaultDescription": "Fault description"
+      },
+      "sections_hint": "See the attribute bar above for customer and product details",
+      "customer": {
+        "name_format": "{FirstName} {LastName}",
+        "not_found": "Not found",
+        "no_name": "Not provided",
+        "no_email": "Not provided"
+      }
+    },
+    "page": {
+      "title": "Product repair · Live Sync demo",
+      "subtitle": "Talk and watch: the voice assistant on your call picks the product and model on this page",
+      "step_product": "Product",
+      "step_model": "Model",
+      "step_fault": "Fault",
+      "product_heading": "Which product needs repair?",
+      "model_heading": "Which model is it?",
+      "fault_heading": "Describe the fault to the voice assistant",
+      "fault_hint": "Just describe the fault on the phone, for example \"it shows an error right after I turn it on\". Nothing to fill in on this page.",
+      "summary_heading": "Repair details",
+      "summary_product": "Product name",
+      "summary_model": "Product model",
+      "summary_fault": "Fault description",
+      "summary_fault_value": "Described by voice",
+      "summary_empty": "Not selected",
+      "change": "Change",
+      "error": "Could not start: ",
+      "picked_by_assistant": "Selected by the voice assistant",
+      "action_select_product": "Select the product the caller wants to report on the page. Use it when the caller names a product or a category, for example washer, air conditioner or robot vacuum.",
+      "action_select_model": "Select the model of the caller's product on the page. Use it when the caller names a model.",
+      "action_change_product": "Use it when the caller wants a different product: the page goes back to the product list.",
+      "action_change_model": "Use it when the caller wants a different model: the page goes back to the model list.",
+      "param_product_id": "ID of the product to select.",
+      "param_model_id": "ID of the model to select.",
+      "available": "Available",
+      "current_selection": "Current page selection",
+      "nothing_selected": "nothing selected yet",
+      "status_loading": "Connecting to your call…",
+      "status_connected": "Connected to your call. Tell the assistant on the phone which product needs repair, or click one.",
+      "status_no_token": "Please open this page from the link in the repair email.",
+      "status_expired": "This link has expired. Please call us again to get a new link.",
+      "status_call_ended": "The call has ended and this link is no longer valid. Please call us again to continue.",
+      "status_not_ready": "The demo is not fully configured yet (Live Sync keys missing). Please contact the administrator.",
+      "status_error": "We could not connect to your call right now. Please refresh the page to try again."
+    },
+    "email": {
+      "subject": "Product repair: open the page and follow the voice assistant",
+      "body": "Hello,\nYou are on a call with our voice assistant. Open the link below to see the repair page; it follows the call as you talk:\n{link}\nThe link is valid for {minutes} minutes and only during this call. If you did not call us, please ignore this email."
+    }
+  }
+}

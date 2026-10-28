@@ -1,0 +1,73 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "5c4e0b0b-0000-4000-8000-000000000001",
+  "Metadata": {
+    "entryPointPosition": {"x": 40, "y": 40},
+    "ActionMetadata": {
+      "5c4e0b0b-0000-4000-8000-000000000001": {"position": {"x": 160, "y": 40}},
+      "5c4e0b0b-0000-4000-8000-000000000002": {
+        "position": {"x": 420, "y": 40},
+        "parameters": {
+          "ViewResource": {"Id": {"displayName": "Detail"}},
+          "InvocationTimeLimitSeconds": {"unit": 60},
+          "ViewData": {
+            "AttributeBar": {"useJson": true},
+            "Sections": {"useJson": true}
+          }
+        }
+      },
+      "5c4e0b0b-0000-4000-8000-000000000003": {"position": {"x": 720, "y": 40}}
+    },
+    "Annotations": [],
+    "name": "{{FLOW_NAME}}",
+    "description": "Agent workspace screen pop: customer name, phone, email (Customer Profiles) and device details collected by ACXD",
+    "type": "contactFlow",
+    "status": "published",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {"FlowLoggingBehavior": "Enabled"},
+      "Identifier": "5c4e0b0b-0000-4000-8000-000000000001",
+      "Type": "UpdateFlowLoggingBehavior",
+      "Transitions": {"NextAction": "5c4e0b0b-0000-4000-8000-000000000002"}
+    },
+    {
+      "Parameters": {
+        "ViewResource": {"Id": "arn:aws:connect:{{REGION}}:aws:view/detail:1"},
+        "InvocationTimeLimitSeconds": "900",
+        "ViewData": {
+          "Heading": "{{LABEL_HEADING}}",
+          "AttributeBar": "{{SCREENPOP_ATTRIBUTE_BAR}}",
+          "Sections": "{{SCREENPOP_SECTIONS}}"
+        }
+      },
+      "Identifier": "5c4e0b0b-0000-4000-8000-000000000002",
+      "Type": "ShowView",
+      "Transitions": {
+        "NextAction": "5c4e0b0b-0000-4000-8000-000000000003",
+        "Conditions": [
+          {
+            "NextAction": "5c4e0b0b-0000-4000-8000-000000000003",
+            "Condition": {"Operator": "Equals", "Operands": ["ActionSelected"]}
+          },
+          {
+            "NextAction": "5c4e0b0b-0000-4000-8000-000000000003",
+            "Condition": {"Operator": "Equals", "Operands": ["Back"]}
+          }
+        ],
+        "Errors": [
+          {"NextAction": "5c4e0b0b-0000-4000-8000-000000000003", "ErrorType": "NoMatchingCondition"},
+          {"NextAction": "5c4e0b0b-0000-4000-8000-000000000003", "ErrorType": "NoMatchingError"},
+          {"NextAction": "5c4e0b0b-0000-4000-8000-000000000003", "ErrorType": "TimeLimitExceeded"}
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "5c4e0b0b-0000-4000-8000-000000000003",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    }
+  ]
+}

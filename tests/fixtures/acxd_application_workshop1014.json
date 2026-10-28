@@ -1,0 +1,66 @@
+{
+  "applicationId": "00000000-0000-4000-8000-000000000004",
+  "name": "workshop1014",
+  "flows": [
+    {
+      "flowId": "Maintplink"
+    }
+  ],
+  "settings": {
+    "clusters": {
+      "enabled": false,
+      "frequency": {
+        "count": 1,
+        "resolution": "MONTH"
+      },
+      "phraseThreshold": {
+        "count": 100
+      },
+      "retention": {
+        "count": 30,
+        "resolution": "DAY"
+      }
+    },
+    "conversationTTL": 5,
+    "guardrails": [],
+    "languageCode": "en-US",
+    "languageCodes": [
+      "en-US"
+    ],
+    "languageSettings": [
+      {
+        "languageCode": "en-US",
+        "useLex3pAsr": false
+      }
+    ],
+    "lifecycleHooks": {},
+    "repeatOnIncomprehension": false,
+    "thresholds": {
+      "incomprehensionCount": 2
+    },
+    "defaultFlows": {
+      "ACXD.Fallback": {
+        "flowId": "Maintplink"
+      },
+      "ACXD.Unknown": {
+        "flowId": "Maintplink"
+      },
+      "ACXD.Welcome": {
+        "flowId": "Maintplink"
+      }
+    }
+  },
+  "description": "",
+  "metadata": {
+    "path": "",
+    "tags": []
+  },
+  "deploymentSettings": {
+    "oneClickDeployEnabled": true,
+    "environment": "production",
+    "contextVariables": []
+  },
+  "createdAt": "2026-10-14T01:39:27.571Z",
+  "updatedAt": "2026-10-14T01:44:24.295Z",
+  "updatedBy": "test_admin"
+}

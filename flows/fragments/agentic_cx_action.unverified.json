@@ -1,0 +1,6 @@
+{
+  "Identifier": "unverified",
+  "Type": "UNVERIFIED_AGENTIC_CX_ACTION",
+  "Parameters": {"_comment": "replace via --agentic-cx-action-file"},
+  "Transitions": {"Errors": [{"ErrorType": "NoMatchingError"}]}
+}

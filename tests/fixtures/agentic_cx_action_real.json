@@ -1,0 +1,49 @@
+{
+  "Identifier": "00000000-0000-4000-8000-000000000009",
+  "Type": "ConnectParticipantWithAgenticCX",
+  "Parameters": {
+    "AgentConfiguration": {
+      "WorkspaceId": "00000000-0000-4000-8000-000000000003",
+      "ApplicationId": "00000000-0000-4000-8000-000000000005",
+      "Alias": "TESTALIAS01"
+    },
+    "SpeechRecognitionConfiguration": {
+      "SpeechRecognitionEngine": "AMAZON_AGENTIC_VOICE"
+    },
+    "AudioFillerConfiguration": {
+      "Enabled": true,
+      "AudioType": "MELODY_PONDERING_PONG",
+      "StartDelayInMilliseconds": 2500,
+      "MinimumPlayDurationInMilliseconds": 3000,
+      "ResponseDeliveryDelayInMilliseconds": 500
+    }
+  },
+  "Transitions": {
+    "NextAction": "00000000-0000-4000-8000-000000000010",
+    "Errors": [
+      {
+        "NextAction": "00000000-0000-4000-8000-000000000010",
+        "ErrorType": "NoMatchingError"
+      },
+      {
+        "NextAction": "00000000-0000-4000-8000-000000000010",
+        "ErrorType": "NoMatchingCondition"
+      },
+      {
+        "NextAction": "00000000-0000-4000-8000-000000000010",
+        "ErrorType": "InputTimeLimitExceeded"
+      }
+    ],
+    "Conditions": [
+      {
+        "NextAction": "00000000-0000-4000-8000-000000000010",
+        "Condition": {
+          "Operator": "Equals",
+          "Operands": [
+            "Escalation"
+          ]
+        }
+      }
+    ]
+  }
+}
